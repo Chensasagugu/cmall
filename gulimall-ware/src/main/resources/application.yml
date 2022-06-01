@@ -16,4 +16,7 @@ mybatis-plus:
     db-config:
       id-type: auto
 server:
-  port: 11000
+  port: 11001
+logging:
+  level:
+    com.chen.gulimallware: debug

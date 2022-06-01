@@ -1,7 +1,9 @@
 package com.chen.gulimallmember;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.chen.common.utils.R;
 import com.chen.gulimallmember.entity.MemberEntity;
+import com.chen.gulimallmember.feign.CouponFeignService;
 import com.chen.gulimallmember.service.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ class GulimallMemberApplicationTests {
 
     @Autowired
     MemberService memberService;
+    @Autowired
+    CouponFeignService couponFeignService;
     @Test
     void contextLoads() {
         /*
@@ -29,5 +33,4 @@ class GulimallMemberApplicationTests {
         for(MemberEntity m:list)
             System.out.println(m);
     }
-
 }

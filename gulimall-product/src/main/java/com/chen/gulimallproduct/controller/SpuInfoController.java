@@ -1,7 +1,15 @@
 package com.chen.gulimallproduct.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.chen.common.to.SkuEsModel;
+import com.chen.gulimallproduct.entity.SkuInfoEntity;
+import com.chen.gulimallproduct.service.SkuInfoService;
+import com.chen.gulimallproduct.vo.spusave.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,14 +36,13 @@ import com.chen.common.utils.R;
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
-
     /**
      * 列表
      */
     @RequestMapping("/list")
     //@RequiresPermissions("gulimallproduct:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
+        PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }
@@ -57,8 +64,8 @@ public class SpuInfoController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("gulimallproduct:spuinfo:save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
+    public R save(@RequestBody SpuSaveVo saveVo){
+		spuInfoService.saveSpuInfo(saveVo);
 
         return R.ok();
     }
@@ -82,6 +89,16 @@ public class SpuInfoController {
     public R delete(@RequestBody Long[] ids){
 		spuInfoService.removeByIds(Arrays.asList(ids));
 
+        return R.ok();
+    }
+
+    /*
+    * 商品上架
+    * */
+    @RequestMapping("{spuId}/up")
+    public R up(@PathVariable("spuId")Long spuId){
+
+        spuInfoService.up(spuId);
         return R.ok();
     }
 

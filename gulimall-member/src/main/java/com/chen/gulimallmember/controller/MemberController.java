@@ -2,7 +2,10 @@ package com.chen.gulimallmember.controller;
 
 import java.util.Arrays;
 import java.util.Map;
+
+import com.chen.gulimallmember.feign.CouponFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +32,19 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    CouponFeignService couponFeignService;
+    /*
+    * 远程调用gulimall-coupon微服务
+    * */
+    @RequestMapping("/feigntest")
+    public R test()
+    {
+        MemberEntity member = new MemberEntity();
+        member.setNickname("chen");
+        R r = couponFeignService.oneCoupon();
+        return R.ok().put("member",member).put("coupon",r.get("coupon"));
+    }
     /**
      * 列表
      */

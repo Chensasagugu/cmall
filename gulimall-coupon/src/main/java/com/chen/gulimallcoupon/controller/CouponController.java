@@ -3,6 +3,8 @@ package com.chen.gulimallcoupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +25,29 @@ import com.chen.common.utils.R;
  * @email chen@gmail.com
  * @date 2022-04-15 10:16:14
  */
+@RefreshScope
 @RestController
 @RequestMapping("gulimallcoupon/coupon")
 public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @Value("${coupon.user.name}")
+    private String name;
+    @RequestMapping("/test")
+    public R test()
+    {
+        return R.ok().put("name",name);
+    }
+    /*
+    * 返回一个优惠券
+    * */
+    @RequestMapping("/getAcoupon")
+    public R oneCoupon(){
+        CouponEntity coupon = new CouponEntity();
+        coupon.setCouponName("满100-50");
+        return R.ok().put("coupon",coupon);
+    }
     /**
      * 列表
      */

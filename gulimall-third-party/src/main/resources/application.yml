@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAI5tG7F7gHum3xaUUccQDi
+      secret-key: 4Yy6OLaQQFidxJZWTnc7nnRVjkFKNU
+      oss:
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+server:
+  port: 30000

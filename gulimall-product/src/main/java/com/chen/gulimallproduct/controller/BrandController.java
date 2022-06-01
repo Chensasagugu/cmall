@@ -1,8 +1,16 @@
 package com.chen.gulimallproduct.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
+
+import com.chen.common.valid.AddGroup;
+import com.chen.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +22,7 @@ import com.chen.gulimallproduct.service.BrandService;
 import com.chen.common.utils.PageUtils;
 import com.chen.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -57,7 +66,8 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("gulimallproduct:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand){
+
 		brandService.save(brand);
 
         return R.ok();
@@ -68,9 +78,12 @@ public class BrandController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("gulimallproduct:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated({UpdateGroup.class}) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
-
+        if(StringUtils.hasLength(brand.getName()))
+        {
+            brandService.updateRelativeColomn(brand.getBrandId(),brand.getName());
+        }
         return R.ok();
     }
 
