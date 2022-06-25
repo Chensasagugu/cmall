@@ -1,6 +1,7 @@
 package com.chen.gulimallmember.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.common.to.UserLoginTo;
 import com.chen.common.utils.PageUtils;
 import com.chen.gulimallmember.entity.MemberEntity;
 
@@ -16,5 +17,9 @@ import java.util.Map;
 public interface MemberService extends IService<MemberEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void register(UserLoginTo userLoginTo);
+
+    MemberEntity login(UserLoginTo userLoginTo);
 }
 

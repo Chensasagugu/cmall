@@ -1,6 +1,12 @@
 package com.chen.gulimallorder.service.impl;
 
+import com.chen.gulimallorder.entity.OrderReturnReasonEntity;
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -26,4 +32,12 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
         return new PageUtils(page);
     }
 
+    //@RabbitListener(queues = {"hello.java-queue"})
+    public void recieveMessage(Message mesage,
+                               OrderReturnReasonEntity entity,
+                               Channel channel) throws IOException {
+        System.out.println("接受到消息...内容"+entity+"==>类型"+mesage.getClass());
+        long deliveryTag = mesage.getMessageProperties().getDeliveryTag();
+        channel.basicNack(deliveryTag,false,true);
+    }
 }

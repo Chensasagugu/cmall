@@ -20,9 +20,8 @@ public class SearchParam {
     private Long catalogId;
     //品牌Id
     private List<Long> brandId;
-    //价格区间 最小价格-最大价格
-    private BigDecimal minPrice;
-    private BigDecimal maxPrice;
+    //价格区间 最小价格-最大价格 如0_3000 _3000 0_
+    private String priceRange;
 
     /**
      * 排序规则：
@@ -42,6 +41,6 @@ public class SearchParam {
     //是否有货
     private Integer hasStock;
     //分页号
-    private Integer page;
+    private Integer pageNum = 1;
 
 }

@@ -3,14 +3,14 @@ package com.chen.gulimallmember.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.chen.common.to.UserLoginTo;
+import com.chen.common.valid.login.LoginGroup;
+import com.chen.common.valid.login.RegisterGroup;
 import com.chen.gulimallmember.feign.CouponFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.chen.gulimallmember.entity.MemberEntity;
 import com.chen.gulimallmember.service.MemberService;
@@ -34,6 +34,14 @@ public class MemberController {
 
     @Autowired
     CouponFeignService couponFeignService;
+
+    @GetMapping("/{memberId}/integration")
+    public Integer getIntegration(@PathVariable("memberId") Long memberId)
+    {
+        MemberEntity byId = memberService.getById(memberId);
+        return byId.getIntegration();
+    }
+
     /*
     * 远程调用gulimall-coupon微服务
     * */
@@ -101,4 +109,17 @@ public class MemberController {
         return R.ok();
     }
 
+    @RequestMapping("/register")
+    public R register(@Validated(RegisterGroup.class) @RequestBody UserLoginTo userLoginTo)
+    {
+        memberService.register(userLoginTo);
+        return R.ok("注册成功");
+    }
+
+    @RequestMapping("/login")
+    public R login(@Validated(LoginGroup.class) @RequestBody UserLoginTo userLoginTo)
+    {
+        MemberEntity member = memberService.login(userLoginTo);
+        return R.ok("登录成功").put("data",member.getId());
+    }
 }

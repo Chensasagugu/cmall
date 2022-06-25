@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.chen.common.annotation.Login;
 import com.chen.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -37,6 +38,7 @@ public class CategoryController {
     /*
     * 三级分类列表
     * */
+    @Login
     @RequestMapping("/list/tree")
     public R listTree()
     {

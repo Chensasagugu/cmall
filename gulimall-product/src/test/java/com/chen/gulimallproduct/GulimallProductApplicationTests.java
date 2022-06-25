@@ -4,8 +4,8 @@ package com.chen.gulimallproduct;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.chen.gulimallproduct.entity.BrandEntity;
 import com.chen.gulimallproduct.entity.CategoryEntity;
-import com.chen.gulimallproduct.service.BrandService;
-import com.chen.gulimallproduct.service.CategoryService;
+import com.chen.gulimallproduct.service.*;
+import com.chen.gulimallproduct.vo.web.SkuItemVo;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +33,12 @@ class GulimallProductApplicationTests {
 
     @Autowired
     RedissonClient redissonClient;
+
+    @Autowired
+    SpuInfoService spuInfoService;
+
+    @Autowired
+    SkuInfoService skuInfoService;
     @Test
     void contextLoads() {
         List<CategoryEntity> list = categoryService.listTree();
@@ -55,5 +61,20 @@ class GulimallProductApplicationTests {
     public void redisson()
     {
         System.out.println(redissonClient);
+    }
+
+    //测试得到所有基本属性值
+    @Test
+    public void getAllBaseAttrValue()
+    {
+        List<SkuItemVo.SpuItemAttrGroupVo> vos = spuInfoService.allBaseAttr(16L, 225L);
+        System.out.println(vos);
+    }
+
+    @Test
+    public void getAllSaleAttrValue()
+    {
+        List<SkuItemVo.SkuItemSaleAttrVo> vos = skuInfoService.allSaleAttrValue(17L);
+        System.out.println(vos);
     }
 }

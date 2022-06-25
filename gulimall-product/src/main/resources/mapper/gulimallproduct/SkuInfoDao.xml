@@ -17,6 +17,18 @@
         <result property="price" column="price"/>
         <result property="saleCount" column="sale_count"/>
     </resultMap>
+    <resultMap id="SkuItemSaleAttrVo" type="com.chen.gulimallproduct.vo.web.SkuItemVo$SkuItemSaleAttrVo">
+        <result property="attrId" column="attr_id"/>
+        <result property="attrName" column="attr_name"/>
+        <result property="attrValue" column="attr_value"/>
+    </resultMap>
+    <select id="selectAllSaleAttrValue" resultMap="SkuItemSaleAttrVo">
+        SELECT t2.attr_id,t2.attr_name,GROUP_CONCAT(DISTINCT t2.attr_value) as attr_value
+        FROM pms_sku_info t1
+                 LEFT JOIN pms_sku_sale_attr_value t2 ON t1.sku_id = t2.sku_id
+        WHERE t1.spu_id = #{spuId}
+        GROUP BY t2.attr_id,t2.attr_name
+    </select>
 
 
 </mapper>

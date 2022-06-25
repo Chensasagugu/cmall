@@ -12,6 +12,15 @@
         <result property="skuName" column="sku_name"/>
         <result property="stockLocked" column="stock_locked"/>
     </resultMap>
+    <resultMap id="skuHasStockVo" type="com.chen.gulimallware.vo.SkuHasStockVo">
+        <result property="skuId" column="sku_id"/>
+        <result property="hasStock" column="has_stock"/>
+    </resultMap>
+    <select id="getSkuHasStock" resultMap="skuHasStockVo">
+        <foreach collection="skuIds" separator="UNION" item="skuId">
+            SELECT sku_id,CASE WHEN stock-stock_locked>0 THEN 1 ELSE 0 END AS has_stock FROM wms_ware_sku WHERE sku_id=#{skuId}
+        </foreach>
+    </select>
 
 
 </mapper>

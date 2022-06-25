@@ -1,6 +1,7 @@
 package com.chen.gulimallproduct.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,13 @@ public class SkuSaleAttrValueController {
         return R.ok().put("skuSaleAttrValue", skuSaleAttrValue);
     }
 
+    @RequestMapping("/simpleInfo/{id}")
+    //@RequiresPermissions("gulimallproduct:skusaleattrvalue:info")
+    public R simpleInfo(@PathVariable("id") Long id){
+        List<String> saleAttrInfo = skuSaleAttrValueService.getSimpleInfoById(id);
+
+        return R.ok().put("data", saleAttrInfo);
+    }
     /**
      * 保存
      */

@@ -10,6 +10,7 @@ import com.chen.gulimallproduct.feign.CouponFeignService;
 import com.chen.gulimallproduct.feign.SearchFeignService;
 import com.chen.gulimallproduct.service.*;
 import com.chen.gulimallproduct.vo.spusave.*;
+import com.chen.gulimallproduct.vo.web.SkuItemVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -287,5 +288,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     }
 
+    @Override
+    public List<SkuItemVo.SpuItemAttrGroupVo> allBaseAttr(Long spuId,Long catalogId) {
+        List<SkuItemVo.SpuItemAttrGroupVo> res = this.baseMapper.selectALLBaseAttr(spuId, catalogId);
+        return res;
+    }
+
+    @Override
+    public SpuInfoEntity getBySkuId(Long skuId) {
+        SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
+        Long spuId = skuInfo.getSpuId();
+        SpuInfoEntity spuInfo = this.getById(skuId);
+        return spuInfo;
+    }
 
 }

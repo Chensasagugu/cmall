@@ -56,7 +56,7 @@ public class WebLogAspect {
         System.out.println("返回结果");
     }
 
-    @Around("logPointCut()")
+    @Around("logPointCut2()")
     public Object doAround(ProceedingJoinPoint pjp)
     {
         long startTime = System.currentTimeMillis();

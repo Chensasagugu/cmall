@@ -1,6 +1,7 @@
 package com.chen.common.to;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @author chen
  * @date 2022.05.25 11:05
  */
+@ToString
 @Data
 public class SkuEsModel {
     private Long skuId;

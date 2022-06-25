@@ -11,11 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.chen.gulimallproduct.entity.BrandEntity;
 import com.chen.gulimallproduct.service.BrandService;
@@ -59,6 +55,17 @@ public class BrandController {
 		BrandEntity brand = brandService.getById(brandId);
 
         return R.ok().put("brand", brand);
+    }
+
+    /**
+     * 品牌名
+     */
+    @GetMapping("/brandName/{brandId}")
+    //@RequiresPermissions("gulimallproduct:brand:info")
+    public String brandName(@PathVariable("brandId") Long brandId){
+        BrandEntity brand = brandService.getById(brandId);
+
+        return brand.getName();
     }
 
     /**

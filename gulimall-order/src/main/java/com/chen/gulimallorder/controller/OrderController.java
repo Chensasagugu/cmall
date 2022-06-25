@@ -2,12 +2,14 @@ package com.chen.gulimallorder.controller;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import com.chen.common.annotation.Login;
+import com.chen.gulimallorder.vo.OrderComfirmVo;
+import com.chen.gulimallorder.vo.OrderResponseVo;
+import com.chen.gulimallorder.vo.OrderSubmitVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.chen.gulimallorder.entity.OrderEntity;
 import com.chen.gulimallorder.service.OrderService;
@@ -85,4 +87,23 @@ public class OrderController {
         return R.ok();
     }
 
+
+    /***
+     * 确认订单数据
+     * @return
+     */
+    @Login
+    @GetMapping("/comfirm")
+    public R comfirmOrder() throws ExecutionException, InterruptedException {
+        OrderComfirmVo comfirmVo = orderService.comfirmOrder();
+        return R.ok().put("data",comfirmVo);
+    }
+
+    @Login
+    @PostMapping("/submitOrder")
+    public R submitOrder(@RequestBody OrderSubmitVo submitVo)
+    {
+        OrderResponseVo order = orderService.submitOrder(submitVo);
+        return R.ok().setData(order);
+    }
 }

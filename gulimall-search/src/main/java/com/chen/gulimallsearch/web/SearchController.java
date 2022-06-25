@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Nullable;
 
@@ -20,11 +22,13 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
+    @ResponseBody
     @GetMapping({"/list"})
-    public String list(SearchParam param, Model model)
+    public SearchResponseVo list(SearchParam param, Model model)
     {
         System.out.println(param.toString());
         SearchResponseVo response = searchService.search(param);
-        return "list";
+        //return "list";
+        return response;
     }
 }

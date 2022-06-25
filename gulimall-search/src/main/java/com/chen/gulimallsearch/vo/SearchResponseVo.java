@@ -2,6 +2,7 @@ package com.chen.gulimallsearch.vo;
 
 import com.chen.common.to.SkuEsModel;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @author chen
  * @date 2022.05.30 14:42
  */
+@ToString
 @Data
 public class SearchResponseVo {
     //当前分页商品列表
@@ -39,7 +41,7 @@ public class SearchResponseVo {
     public static class AttrVo{
         Long attrId;
         String attrName;
-        String attrValue;
+        List<String> attrValue;
     }
     @Data
     public static class CatalogVo{

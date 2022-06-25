@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: gulimall-cart
+  redis:
+    host: 192.168.56.10
+    port: 6379
+server:
+  port: 14000
+chen:
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5[chen]
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
+mall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10

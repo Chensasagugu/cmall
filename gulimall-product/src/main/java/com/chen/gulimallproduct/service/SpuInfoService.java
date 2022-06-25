@@ -5,7 +5,9 @@ import com.chen.common.utils.PageUtils;
 import com.chen.gulimallproduct.entity.SpuInfoDescEntity;
 import com.chen.gulimallproduct.entity.SpuInfoEntity;
 import com.chen.gulimallproduct.vo.spusave.SpuSaveVo;
+import com.chen.gulimallproduct.vo.web.SkuItemVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,5 +28,10 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
 
     //商品上架
     void up(Long spuId);
+
+    // 获得商品的所有基本属性
+    List<SkuItemVo.SpuItemAttrGroupVo> allBaseAttr(Long spuId,Long catalogId);
+
+    SpuInfoEntity getBySkuId(Long skuId);
 }
 
