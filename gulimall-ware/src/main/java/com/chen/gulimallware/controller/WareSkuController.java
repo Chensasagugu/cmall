@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.chen.gulimallware.exception.LockFailException;
+import com.chen.gulimallware.vo.LockStockVo;
 import com.chen.gulimallware.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,31 @@ public class WareSkuController {
     {
         List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
         return R.ok().setData(vos);
+    }
+
+    /**
+     * 锁库存
+     * @param lockStockVos
+     * @return
+     */
+    @PostMapping("/lockStock")
+    public R lockSkuStock(@RequestBody List<LockStockVo> lockStockVos)
+    {
+        boolean isLocked;
+        try{
+            isLocked = wareSkuService.lockStock(lockStockVos);
+        }catch (LockFailException e)
+        {
+            //锁失败
+            return R.error();
+        }
+        if(isLocked)
+        {
+            return R.ok();
+        }else
+        {
+            return R.error();
+        }
     }
 
     /**

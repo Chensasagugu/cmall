@@ -1,6 +1,7 @@
 package com.chen.gulimallorder.feign;
 
 import com.chen.common.utils.R;
+import com.chen.gulimallorder.vo.LockStockVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,4 +27,12 @@ public interface WmsFeignService {
      */
     @GetMapping("/gulimallware/wareinfo/fare")
     public R getFare(@RequestParam("addrId") Long addrId);
+
+    /***
+     * 锁库存
+     * @param lockStockVos
+     * @return
+     */
+    @PostMapping("/gulimallware/waresku/lockStock")
+    public R lockSkuStock(@RequestBody List<LockStockVo> lockStockVos);
 }

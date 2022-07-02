@@ -38,6 +38,6 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
                                Channel channel) throws IOException {
         System.out.println("接受到消息...内容"+entity+"==>类型"+mesage.getClass());
         long deliveryTag = mesage.getMessageProperties().getDeliveryTag();
-        channel.basicNack(deliveryTag,false,true);
+        //channel.basicNack(deliveryTag,false,true);
     }
 }

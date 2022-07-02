@@ -2,6 +2,7 @@ package com.chen.gulimallware.dao;
 
 import com.chen.gulimallware.entity.WareSkuEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.chen.gulimallware.vo.LockStockVo;
 import com.chen.gulimallware.vo.SkuHasStockVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +20,8 @@ import java.util.List;
 public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
 
     List<SkuHasStockVo> getSkuHasStock(@Param("skuIds") List<Long> skuIds);
+
+    List<Long> getWareHashStock(@Param("lockInfo") LockStockVo lockInfo);
+
+    Integer lockWareStock(@Param("wareId") Long wareId, @Param("lockInfo") LockStockVo lockInfo);
 }

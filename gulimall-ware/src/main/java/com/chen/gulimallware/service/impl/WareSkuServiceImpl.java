@@ -1,6 +1,12 @@
 package com.chen.gulimallware.service.impl;
 
+import com.chen.gulimallware.config.MyRabbitConfig;
+import com.chen.gulimallware.exception.LockFailException;
+import com.chen.gulimallware.mq.MyMQConfig;
+import com.chen.gulimallware.vo.LockStockVo;
 import com.chen.gulimallware.vo.SkuHasStockVo;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,10 +21,14 @@ import com.chen.common.utils.Query;
 import com.chen.gulimallware.dao.WareSkuDao;
 import com.chen.gulimallware.entity.WareSkuEntity;
 import com.chen.gulimallware.service.WareSkuService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("wareSkuService")
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -35,6 +45,33 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         List<SkuHasStockVo> list = this.baseMapper.getSkuHasStock(skuIds);
 
         return list;
+    }
+
+    @Override
+    @Transactional
+    public boolean lockStock(List<LockStockVo> lockStockVos) {
+        //找出所有有库存的仓库，锁住其中一个仓库
+        for(LockStockVo lockInfo:lockStockVos)
+        {
+            List<Long> wareIds = this.baseMapper.getWareHashStock(lockInfo);
+            if (wareIds!=null&&wareIds.size()>0)
+            {
+                //锁住其中一个仓库中的库存
+                for(Long wareId:wareIds)
+                {
+                    Integer n = this.baseMapper.lockWareStock(wareId,lockInfo);
+                    if(n<=0)
+                        throw new LockFailException(lockInfo.getSkuId());
+                }
+            }else {
+                throw new LockFailException(lockInfo.getSkuId());
+            }
+        }
+        //将锁库存的消息发送给延时队列
+        rabbitTemplate.convertAndSend(MyMQConfig.STOCK_EVENT_EXCHANGE,
+                MyMQConfig.EXCHANGE_DELAY_ROUTING_KEY,
+                lockStockVos);
+        return true;
     }
 
 }

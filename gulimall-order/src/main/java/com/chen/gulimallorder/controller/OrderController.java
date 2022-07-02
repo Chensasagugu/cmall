@@ -2,12 +2,15 @@ package com.chen.gulimallorder.controller;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import com.chen.common.annotation.Login;
+import com.chen.gulimallorder.mq.MyMQConfig;
 import com.chen.gulimallorder.vo.OrderComfirmVo;
 import com.chen.gulimallorder.vo.OrderResponseVo;
 import com.chen.gulimallorder.vo.OrderSubmitVo;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +33,18 @@ import com.chen.common.utils.R;
 public class OrderController {
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @RequestMapping("/sendTest")
+    public R sendTest()
+    {
+        OrderEntity entity = new OrderEntity();
+        entity.setOrderSn(UUID.randomUUID().toString());
+        rabbitTemplate.convertAndSend(MyMQConfig.ORDER_EVENT_EXCHANGE,"order.create",entity);
+        return R.ok();
+    }
 
     /**
      * 列表
@@ -104,6 +119,15 @@ public class OrderController {
     public R submitOrder(@RequestBody OrderSubmitVo submitVo)
     {
         OrderResponseVo order = orderService.submitOrder(submitVo);
-        return R.ok().setData(order);
+        if(order.getCode()==OrderResponseVo.ResponseCode.SUCCESS.getCode())
+            return R.ok().setData(order);
+        else if(order.getCode()==OrderResponseVo.ResponseCode.TOKEN_VALIDATION_FAIL.getCode())
+            return R.error(OrderResponseVo.ResponseCode.TOKEN_VALIDATION_FAIL.getMsg());
+        else if(order.getCode()==OrderResponseVo.ResponseCode.PRICE_VALIDATION_FAIL.getCode())
+            return R.error(OrderResponseVo.ResponseCode.PRICE_VALIDATION_FAIL.getMsg());
+        else if(order.getCode()==OrderResponseVo.ResponseCode.LOCK_STOCK_FAIL.getCode())
+            return R.error(OrderResponseVo.ResponseCode.LOCK_STOCK_FAIL.getMsg());
+        else
+            return R.error("未知错误");
     }
 }

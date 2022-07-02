@@ -2,6 +2,7 @@ package com.chen.gulimallorder.to;
 
 import com.chen.gulimallorder.entity.OrderEntity;
 import com.chen.gulimallorder.entity.OrderItemEntity;
+import com.chen.gulimallorder.vo.LockStockVo;
 import com.chen.gulimallorder.vo.OrderItemVo;
 import lombok.Data;
 
@@ -18,6 +19,8 @@ public class OrderCreateTo {
     private OrderEntity order;
 
     private List<OrderItemEntity> orderItems;
+
+    private List<LockStockVo> itemLocks;
 
     private BigDecimal payPrice;
 

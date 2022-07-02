@@ -1,6 +1,8 @@
 package com.chen.gulimallorder.config;
 
 import com.chen.common.utils.JwtUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,4 +18,5 @@ public class JWTConfig {
     {
         return new JwtUtils();
     }
+
 }

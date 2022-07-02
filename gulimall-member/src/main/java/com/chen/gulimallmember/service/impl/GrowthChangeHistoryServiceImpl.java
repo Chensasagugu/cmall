@@ -1,5 +1,6 @@
 package com.chen.gulimallmember.service.impl;
 
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

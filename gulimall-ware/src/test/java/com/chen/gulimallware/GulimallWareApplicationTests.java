@@ -1,6 +1,7 @@
 package com.chen.gulimallware;
 
 import com.chen.gulimallware.dao.WareSkuDao;
+import com.chen.gulimallware.vo.LockStockVo;
 import com.chen.gulimallware.vo.SkuHasStockVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,21 @@ class GulimallWareApplicationTests {
         List<SkuHasStockVo> skuHasStock = wareSkuDao.getSkuHasStock(skuIds);
         System.out.println(skuHasStock);
     }
+    @Test
+    void testWare() {
+        LockStockVo lockInfo = new LockStockVo();
+        lockInfo.setLockCount(2);
+        lockInfo.setSkuId(20L);
+        List<Long> wareIds = wareSkuDao.getWareHashStock(lockInfo);
+        System.out.println(wareIds);
+    }
 
+    @Test
+    void testWareLock() {
+        LockStockVo lockInfo = new LockStockVo();
+        lockInfo.setLockCount(2);
+        lockInfo.setSkuId(25L);
+        Integer rows = wareSkuDao.lockWareStock(1L,lockInfo);
+        System.out.println(rows);
+    }
 }
