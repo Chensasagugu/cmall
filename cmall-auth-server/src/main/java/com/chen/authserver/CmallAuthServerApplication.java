@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.chen.authserver.feign")
 @SpringBootApplication
-public class GulimallAuthServerApplication {
+public class CmallAuthServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GulimallAuthServerApplication.class, args);
+        SpringApplication.run(CmallAuthServerApplication.class, args);
     }
 
 }
