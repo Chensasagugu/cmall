@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.56.10:3306/gulimall_oms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: cmall-order
+  redis:
+    host: 192.168.56.10
+    port: 6379
+  main:
+    allow-circular-references: true
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 9000
+chen:
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5[chen]
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
+mall:
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10

@@ -3,23 +3,25 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.chen</groupId>
-    <artifactId>gulimall</artifactId>
+    <artifactId>cmall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gulimall</name>
+    <name>cmall</name>
     <description>聚合服务</description>
     <packaging>pom</packaging>
     <modules>
-        <module>gulimall-coupon</module>
-        <module>gulimall-member</module>
-        <module>gulimall-order</module>
-        <module>gulimall-product</module>
-        <module>gulimall-ware</module>
+        <module>cmall-coupon</module>
+        <module>cmall-member</module>
+        <module>cmall-order</module>
+        <module>cmall-product</module>
+        <module>cmall-ware</module>
         <module>renren-fast</module>
         <module>renren-generator</module>
-        <module>gulimall-common</module>
-        <module>gulimall-auth-server</module>
-        <module>gulimall-search</module>
-        <module>gulimall-cart</module>
+        <module>cmall-common</module>
+        <module>cmall-auth-server</module>
+        <module>cmall-search</module>
+        <module>cmall-cart</module>
+        <module>cmall-gateway</module>
+        <module>cmall-third-party</module>
     </modules>
     <properties>
         <java.version>11</java.version>

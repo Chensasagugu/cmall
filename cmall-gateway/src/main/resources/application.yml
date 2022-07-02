@@ -1,0 +1,42 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: product_route
+          uri: lb://cmall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/product/?(?<segment>.*), /gulimallproduct/$\{segment}
+        - id: third_party_route
+          uri: lb://cmall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters:
+            - RewritePath=/api/thirdparty/?(?<segment>.*), /$\{segment}
+        - id: member_route
+          uri: lb://cmall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/member/?(?<segment>.*), /gulimallmember/$\{segment}
+        - id: ware_route
+          uri: lb://cmall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/ware/?(?<segment>.*), /gulimallware/$\{segment}
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+
+#前端项目所有发起的请求都带上前缀 /api
+  application:
+    name: cmall-gateway
+server:
+  port: 88
